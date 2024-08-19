@@ -25,8 +25,10 @@ module.exports = {
     'prettier/prettier': [
       'warn',
       {
+        semi: false,
         endOfLine: 'auto',
-        arrowParens: 'avoid'
+        arrowParens: 'avoid',
+        trailingComma: 'none'
       }
     ]
   }
