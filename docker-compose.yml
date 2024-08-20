@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  sinova-mongo:
+    container_name: sinova-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+  sinova-redis:
+    container_name: sinova-redis
+    image: redis
+    ports:
+      - "6379:6379"

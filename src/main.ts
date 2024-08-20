@@ -18,7 +18,7 @@ async function bootstrap() {
     )
 
     const config = new DocumentBuilder()
-      .setTitle('SINOVA_TEST_TASK')
+      .setTitle('URL Shortener API')
       .setVersion('0.0.1')
       .build()
     const document = SwaggerModule.createDocument(app, config)
