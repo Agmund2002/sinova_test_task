@@ -7,7 +7,7 @@ import {
   NotFoundException
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Url } from './schemas'
+import { Url, UrlDocument } from './schemas'
 import { Model } from 'mongoose'
 import { UrlDto } from './dtos'
 import { generateRandomCode } from './helpers'
@@ -59,6 +59,8 @@ export class UrlService {
 
       if (!url) throw new NotFoundException('url not found')
 
+      await this.urlModel.updateOne({ code }, { $inc: { clicks: 1 } })
+
       res.status(302).redirect(url)
     } catch (error) {
       if (error instanceof NotFoundException) throw error
@@ -66,6 +68,22 @@ export class UrlService {
       this.logger.error('error during redirection: ', error)
 
       throw new InternalServerErrorException('error during redirection')
+    }
+  }
+
+  async statistics(code: string): Promise<UrlDocument> {
+    try {
+      const statistics = await this.urlModel.findOne({ code })
+
+      if (!statistics) throw new NotFoundException('url not found')
+
+      return statistics
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error
+
+      this.logger.error('error during getting statistics: ', error)
+
+      throw new InternalServerErrorException('error during getting statistics')
     }
   }
 

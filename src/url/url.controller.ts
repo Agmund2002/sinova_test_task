@@ -21,4 +21,12 @@ export class UrlController {
   ) {
     return this.urlService.redirect(res, code)
   }
+
+  @Get('/stats/:code')
+  statistics(
+    @Param('code', new ValidateCodePipe())
+    code: string
+  ) {
+    return this.urlService.statistics(code)
+  }
 }

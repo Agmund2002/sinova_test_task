@@ -1,4 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { HydratedDocument } from 'mongoose'
+
+export type UrlDocument = HydratedDocument<Url>
 
 @Schema({ timestamps: true, versionKey: false, collection: 'urls' })
 export class Url {
