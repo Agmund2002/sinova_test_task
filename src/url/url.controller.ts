@@ -35,6 +35,7 @@ export class UrlController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @ApiResponse({ status: 409, description: 'Conflict' })
+  @ApiResponse({ status: 429, description: 'Too Many Requests' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   @Post('/shorten')
   create(@Body() dto: UrlDto) {
@@ -47,6 +48,7 @@ export class UrlController {
     description: 'Thr redirection was successful'
   })
   @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 429, description: 'Too Many Requests' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   @Get('/:code')
   redirect(
@@ -75,6 +77,7 @@ export class UrlController {
     }
   })
   @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 429, description: 'Too Many Requests' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   @Get('/stats/:code')
   statistics(
