@@ -14,6 +14,7 @@ import { generateRandomCode } from './helpers'
 import { ConfigService } from '@nestjs/config'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
+import { Response } from 'express'
 
 @Injectable()
 export class UrlService {
@@ -47,6 +48,24 @@ export class UrlService {
       throw new InternalServerErrorException(
         'error during creating the short URL'
       )
+    }
+  }
+
+  async redirect(res: Response, code: string): Promise<void> {
+    try {
+      const url: string =
+        (await this.cache.get(code)) ??
+        (await this.urlModel.findOne({ code })).url
+
+      if (!url) throw new NotFoundException('url not found')
+
+      res.status(302).redirect(url)
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error
+
+      this.logger.error('error during redirection: ', error)
+
+      throw new InternalServerErrorException('error during redirection')
     }
   }
 
